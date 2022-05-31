@@ -28,6 +28,7 @@
     internal/server/... # 注册grpc服务
     internal/service/...
     migrations/v1/... # 数据库迁移
+    pkg/... # 可以暴露grpc服务的client
     tests/v1/... # 单元测试
     third_party/... # protobuf的官方依赖
     Dockerfile
