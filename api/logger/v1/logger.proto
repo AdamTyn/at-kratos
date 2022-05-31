@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+option go_package = "at-kratos/api/v1;v1";
+
+service LoggerService {
+  // 查询登录日志
+  rpc get_signup_logs(SignupLogGetRequest) returns (SignupGetReply) {};
+  // 添加登录日志
+  rpc put_signup_log(SignupLogPutRequest) returns (SignupLogPutReply) {};
+}
+
+// 元信息
+message Meta {
+  string ip = 1;// ip地址
+  string platform = 2;// 平台
+  double timestamp = 3;// 请求毫秒时间戳
+}
+
+// 分页查询条件
+message PageQuery {
+  int32 page = 1;// 页码
+  int32 page_size = 2;// 每页行数
+}
+
+message SignupLogDTO {
+  string company_uuid = 1;// 企业uuid
+  string operator_uuid = 2;// 操作人uuid
+  string operator_name = 3;// 操作人名称
+  string way = 4;// 登录方式
+  string ip = 5;// ip地址
+  string platform = 6;// 平台
+  bytes extra = 7;// 其他内容(2进制)
+  double created_time = 8;// 创建毫秒时间戳
+}
+
+// 请求添加登录日志
+message SignupLogPutRequest {
+  string company_uuid = 1;// 企业uuid
+  string operator_uuid = 2;// 操作人uuid
+  string operator_name = 3;// 操作人名称
+  string way = 4;// 登录方式
+  bytes extra = 5;// 其他内容(2进制)
+  Meta meta = 6;// 元信息
+}
+
+// 返回添加登录日志
+message SignupLogPutReply {
+  int32 code = 1;  // 状态码:100=成功
+  string msg = 2;  // 失败消息
+}
+
+// 请求登录日志列表
+message SignupLogGetRequest {
+  string ip = 1;// ip地址
+  string platform = 2;// 平台
+  string way = 3; // 登录方式
+  PageQuery pq = 4;// 分页查询
+}
+
+// 返回登录日志列表
+message SignupGetReply {
+  int32 code = 1;  // 状态码:100=成功
+  string msg = 2;  // 失败消息
+  repeated SignupLogDTO rows = 3;// 列表数据
+  int64 total_count = 4;// 总行数
+}

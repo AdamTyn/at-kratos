@@ -1,0 +1,46 @@
+syntax = "proto3";
+package kratos.api;
+
+option go_package = "at-kratos/internal/conf;conf";
+
+import "google/protobuf/duration.proto";
+
+message Bootstrap {
+  Server server = 1;
+  Dependence dependence = 2;
+}
+
+message Server {
+  message GRPC {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration timeout = 3;
+  }
+  GRPC grpc = 1;
+}
+
+message Data {
+  message Database {
+    string driver = 1;
+    string type = 2;
+    string source = 3;
+  }
+  message Redis {
+    string addr = 1;
+    string password = 2;
+    int32 db_no = 3;
+    int32 pool_size = 4;
+  }
+  Database database = 1;
+  Redis redis = 2;
+}
+
+message Dependence {
+  message Apollo {
+    string endpoint = 1;
+    string cluster = 2;
+    string namespace = 3;
+    string app_id = 4;
+  }
+  Apollo apollo = 1;
+}

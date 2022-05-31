@@ -1,0 +1,10 @@
+server:
+  grpc:
+    addr: 0.0.0.0:9000
+    timeout: 1s
+dependence:
+  apollo:
+    endpoint: at-kratos.apollo.cn
+    cluster: at-kratos.apollo
+    namespace: golang
+    app_id: at-kratos
