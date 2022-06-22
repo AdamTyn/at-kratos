@@ -2,7 +2,6 @@ package v1
 
 import (
 	pb "at-kratos/api/logger/v1"
-	cli "at-kratos/pkg/logger/v1"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -16,7 +15,7 @@ var (
 )
 
 func TestGetSignupLogs(t *testing.T) {
-	c, cleanup, err0 := cli.NewLoggerClient(endpoint, timeout)
+	c, cleanup, err0 := NewLoggerClient(endpoint, timeout)
 	if err0 != nil {
 		t.Fatal(err0)
 	}
@@ -45,7 +44,7 @@ func TestGetSignupLogs(t *testing.T) {
 }
 
 func TestPutSignupLogs(t *testing.T) {
-	c, cleanup, err0 := cli.NewLoggerClient(endpoint, timeout)
+	c, cleanup, err0 := NewLoggerClient(endpoint, timeout)
 	if err0 != nil {
 		t.Fatal(err0)
 	}
@@ -64,7 +63,7 @@ func TestPutSignupLogs(t *testing.T) {
 		Meta: &pb.Meta{
 			Ip:        "192.168.0.0",
 			Platform:  "ubuntu",
-			Timestamp: float64(time.Now().Nanosecond() / 1e6),
+			Timestamp: float64(time.Now().UnixNano() / 1e6),
 		},
 	})
 	if err1 != nil {

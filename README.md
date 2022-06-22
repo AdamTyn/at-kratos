@@ -21,7 +21,7 @@
     internal/data/dao/...
     internal/data/entity/...
     internal/pkg/cache/... # 缓存组件
-    internal/pkg/databse/... # 数据库组件
+    internal/pkg/database/... # 数据库组件
     internal/pkg/grpc_client/... # 调用外部的grpc客户端
     internal/pkg/http_client/... # 调用外部的http客户端
     internal/pkg/util/... # 通用组件

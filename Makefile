@@ -8,10 +8,10 @@ HTTP_CLIENT_PROTO_FILES=$(shell find internal/pkg/http_client -name *.proto)
 .PHONY: config
 # generate config proto
 config:
-	protoc --proto_path=./internal \
+	protoc --proto_path=./internal/conf \
 	       --proto_path=./third_party \
- 	       --go_out=paths=source_relative:./internal \
-	       $(INTERNAL_PROTO_FILES)
+ 	       --go_out=paths=source_relative:./internal/conf \
+	       $(CONF_PROTO_FILES)
 
 .PHONY: api
 # generate api proto
@@ -25,7 +25,7 @@ api:
 .PHONY: grpc-client
 # generate grpc-client proto
 grpc-client:
-	protoc --proto_path=./api \
+	protoc --proto_path=./internal/pkg/grpc_client \
 	       --proto_path=./third_party \
  	       --go_out=paths=source_relative:./api \
  	       --go-grpc_out=paths=source_relative:./api \
@@ -34,7 +34,7 @@ grpc-client:
 .PHONY: http-client
 # generate http-client proto
 http-client:
-	protoc --proto_path=./api \
+	protoc --proto_path=./internal/pkg/http_client \
 	       --proto_path=./third_party \
  	       --go_out=paths=source_relative:./api \
  	       --go-http_out=paths=source_relative:./api \

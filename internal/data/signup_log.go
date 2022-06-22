@@ -3,9 +3,11 @@ package data
 import (
 	"at-kratos/internal/biz"
 	"at-kratos/internal/data/entity"
+	"at-kratos/internal/pkg/util"
 	"context"
 	"gitee.com/chunanyong/zorm"
 	"github.com/go-kratos/kratos/v2/log"
+	"strings"
 )
 
 type signupLogRepo struct {
@@ -43,6 +45,7 @@ func (r signupLogRepo) BatchPut(ctx context.Context, signupLogs []*entity.Signup
 	}
 	rows := make([]zorm.IEntityStruct, len(signupLogs))
 	for k := range signupLogs {
+		r.makeValid(signupLogs[k])
 		rows[k] = signupLogs[k]
 	}
 	_, err := zorm.Transaction(ctx, func(ctx context.Context) (interface{}, error) {
@@ -52,4 +55,18 @@ func (r signupLogRepo) BatchPut(ctx context.Context, signupLogs []*entity.Signup
 		r.log.Errorf("[signupLogRepo::BatchPut] err=%s", err)
 	}
 	return err
+}
+
+func (r signupLogRepo) makeValid(en *entity.SignupLog) {
+	if en.OperatorName != "" {
+		en.OperatorName = strings.Replace(en.OperatorName, "'", "''", -1)
+	}
+	if en.Extra == "" {
+		en.Extra = "{}"
+	} else {
+		en.Extra = strings.Replace(en.Extra, "'", "''", -1)
+	}
+	if !util.IsIPv4(en.IP) && !util.IsIPv6(en.IP) {
+		en.IP = "0.0.0.0"
+	}
 }
